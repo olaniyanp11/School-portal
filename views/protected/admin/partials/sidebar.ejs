@@ -1,0 +1,75 @@
+<aside id="sidebar"
+  class="fixed md:static z-30 inset-y-0 left-0 w-64 bg-[#0c0c0c] shadow-lg transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out md:block hidden"
+  data-aos="fade-right" data-aos-delay="100">
+
+  <div class="p-6">
+    <h2 class="text-2xl font-semibold text-white mb-2">Welcome</h2>
+    <p class="text-gray-400 mb-6"><%= user?.name %></p>
+
+    <ul class="space-y-2">
+      <!-- Dashboard -->
+      <li>
+        <a href="/admin"
+          class="flex items-center px-4 py-2 rounded text-gray-300 hover:bg-gray-800 hover:text-blue-500 transition">
+          <span class="material-icons mr-2">dashboard</span> Dashboard
+        </a>
+      </li>
+
+      <!-- All Students -->
+      <li>
+        <a href="/student/all"
+          class="flex items-center px-4 py-2 rounded text-gray-300 hover:bg-gray-800 hover:text-green-400 transition">
+          <span class="material-icons mr-2">school</span> All Students
+        </a>
+      </li>
+
+      <!-- Manage Users -->
+      <li>
+        <a href="/admin/users"
+          class="flex items-center px-4 py-2 rounded text-gray-300 hover:bg-gray-800 hover:text-green-500 transition">
+          <span class="material-icons mr-2">people</span> Manage Users
+        </a>
+      </li>
+
+      <!-- Departments -->
+      <li>
+        <a href="/admin/departments"
+          class="flex items-center px-4 py-2 rounded text-gray-300 hover:bg-gray-800 hover:text-yellow-500 transition">
+          <span class="material-icons mr-2">apartment</span> Departments
+        </a>
+      </li>
+
+      <!-- Courses -->
+      <li>
+        <a href="/admin/courses"
+          class="flex items-center px-4 py-2 rounded text-gray-300 hover:bg-gray-800 hover:text-cyan-500 transition">
+          <span class="material-icons mr-2">menu_book</span> Courses
+        </a>
+      </li>
+
+      <!-- Invite Users -->
+      <li>
+        <a href="/admin/invite"
+          class="flex items-center px-4 py-2 rounded text-gray-300 hover:bg-gray-800 hover:text-indigo-500 transition">
+          <span class="material-icons mr-2">person_add</span> Invite Users
+        </a>
+      </li>
+
+      <!-- Profile -->
+      <li>
+        <a href="/admin/profile"
+          class="flex items-center px-4 py-2 rounded text-gray-300 hover:bg-gray-800 hover:text-purple-500 transition">
+          <span class="material-icons mr-2">person</span> Profile
+        </a>
+      </li>
+
+      <!-- Logout -->
+      <li>
+        <a href="/logout"
+          class="flex items-center px-4 py-2 rounded text-red-400 hover:bg-gray-800 hover:text-red-500 transition">
+          <span class="material-icons mr-2">logout</span> Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>

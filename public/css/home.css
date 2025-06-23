@@ -1,0 +1,65 @@
+.hero{
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.678), rgb(0, 0, 0) ), url('/images/hero.jpg');
+    background-size: cover;
+    background-position: fixed;
+    background-repeat: no-repeat;
+    display: flex  ;
+    justify-content: center ;
+    align-items: flex-start;
+    padding-top:10vh ;
+    flex-direction: column;
+    background-attachment: fixed;
+    gap: 10px;
+    animation: move 3s ease-in-out infinite alternate;
+}
+.nav-links{
+    transition: all 1s ease-in-out;
+    color: #969696;
+}
+.nav-links :hover{
+    color : #E5C69C
+}
+.hero h1{
+    color: rgb(241, 241, 241);
+    font-weight: 700;
+    line-height: 1.0;
+}
+.hero p{
+    color: rgb(219, 219, 219);
+    font-weight: 400;
+    margin-top: 10px;
+}
+.btn {
+    background-color:#E5C69C ;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 1s ease-in-out;
+}
+@keyframes move {
+   100% {
+        background-position: fixed;
+    }
+}
+/* about  */
+
+.about{
+    width: 100%;
+    min-height: 100vh;
+    background-color: black;
+}
+.imageGrid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 80%;
+    margin: auto;
+    padding-top: 50px;
+}
+.black{
+    background-color: rgb(15, 15, 15);
+}

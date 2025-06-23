@@ -1,12 +1,140 @@
-<!-- partials/header.ejs -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
+  <!-- <meta http-equiv="refresh" content="2"> -->
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><%= title || "E-Learning App" %></title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/output.css">
+  <!-- AOS CSS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
+
+<body class="bg-black text-[#969696] min-h-screen">
+<nav class=" text-white fixed w-full z-50  backdrop-blur-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <a href="/" class="text-xl font-semibold">SPortal</a>
+
+      <!-- Hamburger menu for mobile -->
+      <div class="md:hidden">
+        <button id="menuToggle" class="text-white focus:outline-none">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+
+      <!-- Desktop links -->
+      <div class="hidden md:flex space-x-4 text-sm items-center" id="desktopMenu">
+        <a href="/" class="hover:text-[#E5C680]">Home</a>
+<% if(user !== null) {%>
+        <% if (user.role === 'student') { %>
+
+        <a href="/student" class="hover:text-[#E5C680]">Dashboard</a>
+        <a href="/student/courses" class="hover:text-[#E5C680]">Courses</a>
+        <a href="/student/results" class="hover:text-[#E5C680]">Results</a>
+        <a href="/student/profile" class="hover:text-[#E5C680]">Profile</a>
+        <a href="/logout" class="text-red-500 hover:text-red-600">Logout</a>
+        <% } else if (user.role === 'admin') { %>
+        <a href="/admin" class="hover:text-[#E5C680]">Admin Dashboard</a>
+        <a href="/admin/users" class="hover:text-[#E5C680]">Users</a>
+        <a href="/admin/courses" class="hover:text-[#E5C680]">Courses</a>
+        <a href="/logout" class="text-red-500 hover:text-red-600">Logout</a>
+        <% } else if (user.role === 'lecturer') { %>
+        <a href="/lecturer" class="hover:text-[#E5C680]">Lecturer Dashboard</a>
+        <a href="/lecturer/courses" class="hover:text-[#E5C680]">Courses</a>
+        <a href="/lecturer/students" class="hover:text-[#E5C680]">Students</a>
+        <a href="/lecturer/profile" class="hover:text-[#E5C680]">Profile</a>
+        
+        <a href="/logout" class="text-red-500 hover:text-red-600">Logout</a>
+        <% } %>
+    <% } else { %>
+      
+        <a href="/login" class="hover:text-[#E5C680]">Login</a>
+        <% } %>
+
+        <!-- Notification Bell -->
+        <div class="relative">
+          <button id="notifBtn" class="relative">
+            <i class="fas fa-bell text-[#E5C680]"></i>
+            <% if (unreadCount > 0) { %>
+            <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1">
+              <%= unreadCount %>
+            </span>
+            <% } %>
+          </button>
+          <div id="notifDropdown" class="hidden absolute right-0 mt-3 w-80 bg-white text-black rounded-md shadow-md z-50">
+            <div class="p-3 border-b text-sm font-semibold">Notifications</div>
+            <% if (notifications.length === 0) { %>
+            <div class="p-4 text-sm text-gray-600">No notifications</div>
+            <% } else { %>
+            <% notifications.forEach(note => { %>
+            <div class="px-4 py-3 border-b hover:bg-gray-100 text-sm <%= note.isRead ? '' : 'font-bold' %>">
+              <%= note.title %><br>
+              <span class="text-xs text-gray-600"><%= note.message %></span>
+            </div>
+            <% }) %>
+            <% } %>
+            <div class="p-3 text-right text-sm">
+              <a href="/notifications" class="text-blue-500 hover:underline">View All</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="md:hidden px-4 pb-4 hidden backdrop-blur-md flex-col flex space-y-8 transition-all duration-75 text-md" id="mobileMenu">
+    <!-- Repeat your menu links here -->
+    <a href="/" class="hover:text-[#E5C680]">Home</a>
+    <% if (user && user.role === 'student') { %>
+    <a href="/student" class="hover:text-[#E5C680]">Dashboard</a>
+    <a href="/student/courses" class="hover:text-[#E5C680]">Courses</a>
+    <a href="/student/results" class="hover:text-[#E5C680]">Results</a>
+    <a href="/student/profile" class="hover:text-[#E5C680]">Profile</a>
+    <a href="/logout" class="text-red-500 hover:text-red-600">Logout</a>
+    <% } else if (user && user.role === 'admin') { %>
+    <a href="/admin" class="hover:text-[#E5C680]">Admin Dashboard</a>
+    <a href="/admin/users" class="hover:text-[#E5C680]">Users</a>
+    <a href="/admin/courses" class="hover:text-[#E5C680]">Courses</a>
+    <a href="/logout" class="text-red-500 hover:text-red-600">Logout</a>
+    <% } else if (user && user.role === 'lecturer') { %>
+    <a href="/lecturer" class="hover:text-[#E5C680]">Lecturer Dashboard</a>
+    <a href="/lecturer/courses" class="hover:text-[#E5C680]">Courses</a>
+    <a href="/lecturer/students" class="hover:text-[#E5C680]">Students</a>
+    <a href="/lecturer/profile" class="hover:text-[#E5C680]">Profile</a>
+    <a href="/logout" class="text-red-500 hover:text-red-600">Logout</a>
+    <% } else { %>
+    <a href="/login" class="hover:text-[#E5C680]">Login</a>
+    <% } %>
+  </div>
+</nav>
+<div>
+  <!-- message -->
+<% if (message) { %>
+  <div id="flashMessage" class="p-3 text-center rounded mb-4 absolute top-10 left-1/2 transform -translate-x-1/2 transition-all duration-300 ease-in-out z-50 w-[70%]
+              <% if (messageType === 'error') { %> bg-red-600 
+              <% } else if (messageType === 'success') { %> bg-green-600 
+              <% } else { %> bg-blue-600 <% } %> text-white">
+    <%= message %>
+  </div>
+  <script>
+    setTimeout(function() {
+      var msg = document.getElementById('flashMessage');
+      if (msg) {
+        msg.style.opacity = '0';
+        setTimeout(function() { msg.style.display = 'none'; }, 20000);
+      }
+    }, 2000);
+  </script>
+<% } %>
+
+</div>
+

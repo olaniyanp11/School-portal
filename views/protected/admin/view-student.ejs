@@ -1,0 +1,25 @@
+<%- include('./partials/header') %>
+<%- include('./partials/sidebar') %>
+
+<main class="min-h-screen w-full px-6 sm:px-10 pt-6 max-w-screen mx-auto">
+  <div class="bg-[#0c0c0c] rounded-lg shadow p-6 w-full text-white">
+    <h2 class="text-xl font-semibold mb-4">Student Details</h2>
+
+    <div class="space-y-3">
+      <p><strong>Matric Number:</strong> <%= student.matricNumber %></p>
+      <p><strong>Name:</strong> <%= student.name %></p>
+      <p><strong>Email:</strong> <%= student.email %></p>
+      <p><strong>Department:</strong> <%= student.department ? student.department.name : 'N/A' %></p>
+      <p><strong>Created At:</strong> <%= student.createdAt.toLocaleDateString() %></p>
+    </div>
+
+    <div class="mt-6 flex gap-4">
+      <a href="/student/all" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">Back</a>
+      <form action="/admin/students/<%= student._id %>?_method=DELETE" method="POST">
+        <button type="submit" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">Delete</button>
+      </form>
+    </div>
+  </div>
+</main>
+  </div>  </div>
+<%- include('../../partials/footer') %>

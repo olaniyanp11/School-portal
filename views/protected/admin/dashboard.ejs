@@ -1,0 +1,148 @@
+<%- include('./partials/header') %>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<%- include('./partials/sidebar') %>
+
+<main class="flex-1 p-6">
+  <h1 class="text-3xl font-bold mb-6 text-gray-100">Welcome Admin, <%= user?.name %></h1>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- Total Students -->
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
+      <div class="bg-blue-100 text-blue-600 rounded-full p-3">
+        <span class="material-icons">group</span>
+      </div>
+      <div>
+        <div class="text-lg font-semibold"><%= totalStudents || 0 %></div>
+        <div class="text-gray-400 text-sm">Total Students</div>
+      </div>
+    </div>
+
+    <!-- Total Lecturers -->
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
+      <div class="bg-green-100 text-green-600 rounded-full p-3">
+        <span class="material-icons">person</span>
+      </div>
+      <div>
+        <div class="text-lg font-semibold"><%= totalLecturers || 0 %></div>
+        <div class="text-gray-400 text-sm">Total Lecturers</div>
+      </div>
+    </div>
+
+    <!-- Active Courses -->
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
+      <div class="bg-yellow-100 text-yellow-600 rounded-full p-3">
+        <span class="material-icons">menu_book</span>
+      </div>
+      <div>
+        <div class="text-lg font-semibold"><%= totalCourses || 0 %></div>
+        <div class="text-gray-400 text-sm">Active Courses</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick System Overview -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
+      <div class="bg-purple-100 text-purple-600 rounded-full p-3">
+        <span class="material-icons">apartment</span>
+      </div>
+      <div>
+        <div class="text-lg font-semibold"><%= totalDepartments || 0 %></div>
+        <div class="text-gray-400 text-sm">Departments</div>
+      </div>
+    </div>
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
+      <div class="bg-red-100 text-red-600 rounded-full p-3">
+        <span class="material-icons">admin_panel_settings</span>
+      </div>
+      <div>
+        <div class="text-lg font-semibold"><%= totalAdmins || 0 %></div>
+        <div class="text-gray-400 text-sm">Admin Users</div>
+      </div>
+    </div>
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
+      <div class="bg-cyan-100 text-cyan-600 rounded-full p-3">
+        <span class="material-icons">mail</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Section -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+    <!-- Recent Admin Activity -->
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
+      <h2 class="text-xl font-semibold mb-4 text-white flex items-center gap-2">
+        <span>Recent Admin Activity</span>
+        <span class="material-icons text-blue-400">history</span>
+      </h2>
+      <ul class="space-y-3">
+        <% if (recentActivities && recentActivities.length > 0) { %>
+          <% recentActivities.forEach(activity => { %>
+            <li class="bg-[#141414] p-3 rounded flex items-center">
+              <span class="material-icons text-blue-500 mr-2">event_note</span>
+              <%= activity.message %>
+              <span class="ml-auto text-xs text-gray-400"><%= activity.timeAgo %></span>
+            </li>
+          <% }) %>
+        <% } else { %>
+          <p class="text-gray-400">No recent activity available.</p>
+        <% } %>
+      </ul>
+    </div>
+
+    <!-- System Notifications -->
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
+      <h2 class="text-xl font-semibold mb-4 text-white">System Notifications</h2>
+      <ul class="space-y-2">
+        <% if (notifications && notifications.length > 0) { %>
+          <% notifications.forEach(note => { %>
+            <li class="bg-[#141414] p-3 rounded flex items-center">
+              <span class="material-icons text-yellow-500 mr-2">notifications</span>
+              <%= note.message %>
+            </li>
+          <% }) %>
+        <% } else { %>
+          <p class="text-gray-400">No system notifications.</p>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Top Performing Students -->
+  <div class="bg-[#0c0c0c] rounded-lg shadow p-6 mt-10">
+    <h2 class="text-xl font-semibold mb-4 text-white flex items-center gap-2">
+      <span>Top Performing Students</span>
+      <span class="material-icons text-green-400">emoji_events</span>
+    </h2>
+    <ul class="space-y-3">
+      <% const topStudents = [
+        { name: "Favour Okonkwo", gpa: 4.0 },
+        { name: "Pelumi Israel", gpa: 3.92 },
+        { name: "Grace Ogun", gpa: 3.88 }
+      ]; %>
+
+      <% topStudents.forEach((student, index) => { %>
+        <li class="bg-[#141414] p-4 rounded flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <span class="material-icons text-yellow-400">
+              <%= index === 0 ? 'star' : index === 1 ? 'star_half' : 'star_outline' %>
+            </span>
+            <div>
+              <p class="text-white font-semibold"><%= student.name %></p>
+              <p class="text-gray-400 text-sm">GPA: <%= student.gpa %></p>
+            </div>
+          </div>
+          <span class="text-gray-300 text-xs">Rank #<%= index + 1 %></span>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+
+</main>
+
+</div> <!-- Close sidebar layout -->
+</div> <!-- Close wrapper layout -->
+
+<%- include('./partials/footer') %>

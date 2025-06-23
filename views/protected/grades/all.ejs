@@ -1,0 +1,32 @@
+<%- include('../../partials/header') %>
+<main class="p-6">
+  <h1 class="text-2xl font-bold text-white mb-6 mt-10">All Student Grades</h1>
+
+  <table class="w-full text-white table-auto border-collapse">
+    <thead>
+      <tr class="bg-[#1a1a1a]">
+        <th class="p-2 border border-gray-700">Student</th>
+        <th class="p-2 border border-gray-700">Email</th>
+        <th class="p-2 border border-gray-700">Course</th>
+        <th class="p-2 border border-gray-700">Code</th>
+        <th class="p-2 border border-gray-700">Score</th>
+        <th class="p-2 border border-gray-700">Grade</th>
+        <th class="p-2 border border-gray-700">Session</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% grades.forEach(g => { %>
+        <tr class="bg-[#121212]">
+          <td class="p-2 border border-gray-800"><%= g.student.name %></td>
+          <td class="p-2 border border-gray-800"><%= g.student.email %></td>
+          <td class="p-2 border border-gray-800"><%= g.course.title %></td>
+          <td class="p-2 border border-gray-800"><%= g.course.code %></td>
+          <td class="p-2 border border-gray-800"><%= g.score %></td>
+          <td class="p-2 border border-gray-800"><%= g.grade %></td>
+          <td class="p-2 border border-gray-800"><%= g.session %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</main>
+<%- include('../../partials/footer') %>

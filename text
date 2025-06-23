@@ -1,0 +1,90 @@
+// View all grades - for lecturers (their courses only) and admins (all)
+router.get("/grades/all", authenticateToken, async (req, res) => {
+  try {
+    let filter = {};
+
+    if (req.user.role === "lecturer") {
+      // Get courses taught by this lecturer
+      const lecturerCourses = await Course.find({ lecturerId: req.user.userId }).select("_id");
+      const courseIds = lecturerCourses.map(course => course._id);
+      filter.course = { $in: courseIds };
+    }
+
+    const grades = await Grade.find(filter)
+      .populate("student", "name email")
+      .populate("course", "title code")
+      .sort({ session: -1 });
+
+    res.render("protected/common/all-grades", {
+      title: "All Grades",
+      user: req.user,
+      grades
+    });
+  } catch (err) {
+    console.error("Error fetching grades:", err);
+    res.status(500).send("Server error");
+  }
+});
+✅ 2. EJS View to Display All Grades
+Create views/protected/common/all-grades.ejs:
+
+ejs
+Copy
+Edit
+<%- include('../../partials/header') %>
+
+<main class="p-6">
+  <h1 class="text-2xl font-bold text-white mb-6">All Student Grades</h1>
+
+  <table class="w-full text-white table-auto border-collapse">
+    <thead>
+      <tr class="bg-[#1a1a1a]">
+        <th class="p-2 border border-gray-700">Student</th>
+        <th class="p-2 border border-gray-700">Email</th>
+        <th class="p-2 border border-gray-700">Course</th>
+        <th class="p-2 border border-gray-700">Code</th>
+        <th class="p-2 border border-gray-700">Score</th>
+        <th class="p-2 border border-gray-700">Grade</th>
+        <th class="p-2 border border-gray-700">Session</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% grades.forEach(g => { %>
+        <tr class="bg-[#121212]">
+          <td class="p-2 border border-gray-800"><%= g.student.name %></td>
+          <td class="p-2 border border-gray-800"><%= g.student.email %></td>
+          <td class="p-2 border border-gray-800"><%= g.course.title %></td>
+          <td class="p-2 border border-gray-800"><%= g.course.code %></td>
+          <td class="p-2 border border-gray-800"><%= g.score %></td>
+          <td class="p-2 border border-gray-800"><%= g.grade %></td>
+          <td class="p-2 border border-gray-800"><%= g.session %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</main>
+
+<%- include('../../partials/footer') %>
+✅ 3. Link from Sidebar
+Update lecturer and admin sidebar EJS with:
+
+ejs
+Copy
+Edit
+<li>
+  <a href="/grades/all" class="flex items-center px-4 py-2 rounded text-gray-700 hover:bg-gray-800 hover:text-blue-700 transition">
+    <span class="material-icons mr-2">grading</span> View Grades
+  </a>
+</li>
+✅ 4. Optional Filters (Future Enhancements)
+You can later add filters like:
+
+Filter by session
+
+Filter by course
+
+Search by student name
+
+Let me know if you want that now.
+
+Ready to drop this into your codebase?

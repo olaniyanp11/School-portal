@@ -1,0 +1,49 @@
+<%- include('./partials/header') %>
+<%- include('./partials/sidebar') %>
+
+<main class="min-h-screen w-full px-6 sm:px-10 pt-6 max-w-screen mx-auto">
+  <div class="bg-[#0c0c0c] rounded-lg shadow p-6 w-full">
+    <h2 class="text-xl font-semibold mb-4 text-gray-200">All Users</h2>
+
+    <!-- AJAX container -->
+    <div id="userListContainer">
+      <!-- User List -->
+      <ul class="space-y-4">
+        <% if (users.length === 0) { %>
+        <p class="text-gray-400">No users found.</p>
+        <% } else { %>
+        <% users.forEach((user, index) => { %>
+        <li class="bg-[#141414] p-4 rounded flex flex-col sm:flex-row justify-between items-start sm:items-center">
+          <div class="flex items-center gap-3">
+            <div class="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center">
+              <span class="material-icons text-sm text-black"><%= index + 1 %></span>
+            </div>
+            <div class="space-y-1 sm:space-y-0 sm:space-x-3 flex flex-col sm:flex-row space-x-2">
+              <p class="text-gray-200 font-medium"><%= user.name %></p>
+              <p class="text-gray-400"><%= user.email %></p>
+              <span class="text-xs px-4 py-1 rounded-full 
+  <%= user.role === 'admin' ? 'bg-red-500 text-white' 
+  : user.role === 'lecturer' ? 'bg-yellow-500 text-white' 
+  : 'bg-green-500 text-white' %>">
+                <%= user.role %>
+              </span>
+            </div>
+          </div>
+          <div class="mt-3 sm:mt-0 flex gap-3">
+            <a href="/admin/users/<%= user._id %>" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm">View</a>
+            <form action="/admin/user/delete/<%= user._id %>?_method=DELETE" method="POST">
+              <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm">Delete</button>
+            </form>
+          </div>
+        </li>
+        <% }) %>
+        <% } %>
+      </ul>
+    </div>
+
+  </div>
+</main>
+</div>
+</div>
+
+<%- include('./partials/footer') %>

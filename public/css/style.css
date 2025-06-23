@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@font-face{
+    font-family: 'main';
+    src: url('/font/Roboto-VariableFont_wdth,wght.ttf') format('truetype');
+}
+
+*{
+    font-family: 'main', Arial, sans-serif;
+}
+body{
+    min-height: 100vh;
+}

@@ -1,0 +1,40 @@
+<%- include('./partials/header') %>
+<%- include('./partials/sidebar') %>
+
+<main class="min-h-screen w-full px-6 sm:px-10 pt-6 max-w-screen mx-auto">
+  <div class="bg-[#0c0c0c] rounded-lg shadow p-6 w-full">
+    <h2 class="text-xl font-semibold mb-4 text-gray-200">Edit Department</h2>
+
+    <form action="/admin/departments/<%= department._id %>?_method=PUT" method="POST" class="space-y-4">
+      <!-- Department Name -->
+      <div>
+        <label for="name" class="block text-sm text-gray-400 mb-1">Department Name</label>
+        <input type="text" name="name" id="name" value="<%= department.name %>" required class="w-full px-3 py-2 bg-[#1c1c1c] border border-gray-600 rounded text-white">
+      </div>
+
+      <!-- Faculty -->
+      <div>
+        <label for="faculty" class="block text-sm text-gray-400 mb-1">Faculty</label>
+        <input type="text" name="faculty" id="faculty" value="<%= department.faculty %>" class="w-full px-3 py-2 bg-[#1c1c1c] border border-gray-600 rounded text-white">
+      </div>
+
+      <!-- HOD Selection -->
+      <div>
+        <label for="hod" class="block text-sm text-gray-400 mb-1">Head of Department (HOD)</label>
+        <select name="hod" id="hod" class="w-full px-3 py-2 bg-[#1c1c1c] border border-gray-600 rounded text-white">
+          <option value="">-- Select Lecturer --</option>
+          <% lecturers.forEach(lecturer => { %>
+            <option value="<%= lecturer._id %>" <%= department.hod && department.hod.toString() === lecturer._id.toString() ? 'selected' : '' %>>
+              <%= lecturer.name %> (<%= lecturer.email %>)
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm">Update Department</button>
+    </form>
+  </div>
+</main>
+</div>
+</div>
+<%- include('./partials/footer') %>

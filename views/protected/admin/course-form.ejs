@@ -1,0 +1,39 @@
+<%- include('./partials/header') %>
+<%- include('./partials/sidebar') %>
+
+<main class="min-h-screen w-full px-6 sm:px-10 pt-6">
+  <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
+    <h2 class="text-xl font-semibold mb-4 text-gray-200">Create New Course</h2>
+
+    <form action="/admin/courses" method="POST" class="space-y-4">
+      <input name="title" placeholder="Course Title" required class="input" />
+      <input name="code" placeholder="Course Code" required class="input" />
+      <input name="unit" type="number" placeholder="Course Unit" required class="input" />
+
+      <select name="department" required class="input">
+        <option value="">-- Select Department --</option>
+        <% departments.forEach(d => { %>
+          <option value="<%= d._id %>"><%= d.name %></option>
+        <% }) %>
+      </select>
+
+      <select name="semester" required class="input">
+        <option value="">-- Select Semester --</option>
+        <% semesters.forEach(s => { %>
+          <option value="<%= s._id %>"><%= s.name %></option>
+        <% }) %>
+      </select>
+
+      <select name="lecturerId" required class="input">
+        <option value="">-- Select Lecturer --</option>
+        <% lecturers.forEach(l => { %>
+          <option value="<%= l._id %>"><%= l.name %> (<%= l.email %>)</option>
+        <% }) %>
+      </select>
+
+      <button type="submit" class="btn">Create Course</button>
+    </form>
+  </div>
+</main>
+
+<%- include('./partials/footer') %>

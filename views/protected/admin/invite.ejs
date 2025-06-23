@@ -1,0 +1,59 @@
+<%- include('./partials/header') %>
+<%- include('./partials/sidebar') %>
+
+<main class="min-h-screen w-full px-6 sm:px-10 pt-6 max-w-screen mx-auto">
+  <div class="bg-[#0c0c0c] rounded-lg shadow p-6 w-full max-w-2xl mx-auto">
+    <h2 class="text-xl font-semibold mb-4 text-white">Generate Invite Code</h2>
+
+    <form method="POST" action="/admin/invite" class="space-y-4">
+      <div>
+        <label class="block text-sm text-gray-300 mb-2">Select Role</label>
+        <select name="role" required class="w-full px-4 py-2 rounded bg-[#121212] text-white border border-gray-600">
+          <option value="">-- Select --</option>
+          <option value="lecturer">Lecturer</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+        Generate Invite
+      </button>
+    </form>
+
+    <hr class="my-6 border-gray-700" />
+
+    <h3 class="text-lg text-white font-medium mb-2">Recent Invites</h3>
+    <ul class="space-y-2">
+      <% if (invites.length === 0) { %>
+        <p class="text-gray-400">No invites generated yet.</p>
+      <% } else { %>
+        <% invites.forEach(invite => { %>
+          <li class="bg-[#141414] p-3 rounded text-sm text-gray-300 flex justify-between items-center">
+            <div class="space-x-2 flex items-center">
+              <span onclick="copyToClipboard('<%= invite.code %>')" > <i class="fa  fa-copy text-gray-600"></i></span>
+              <strong class="text-white"><%= invite.code %></strong> 
+              — <%= invite.role %> 
+              <% if (invite.isUsed) { %>
+                <span class="text-green-500">(Used)</span>
+              <% } else { %>
+                <span class="text-yellow-500">(Unused)</span>
+              <% } %>
+            </div>
+            <div class="text-xs text-gray-400"><%= new Date(invite.createdAt).toLocaleDateString() %></div>
+          </li>
+        <% }) %>
+      <% } %>
+    </ul>
+  </div>
+</main>
+</div>
+</div>
+<script>
+  function copyToClipboard(code) {
+    navigator.clipboard.writeText(code).then(() => {
+      alert('Invite code copied to clipboard!');
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+  }
+</script>
+<%- include('./partials/footer') %>

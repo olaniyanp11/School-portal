@@ -1,0 +1,60 @@
+<%- include('./partials/header') %>
+<%- include('./partials/sidebar') %>
+
+<main class="min-h-screen w-full px-6 sm:px-10 pt-6 max-w-screen mx-auto">
+  <div class="bg-[#0c0c0c] rounded-lg shadow p-6 w-full max-w-3xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-xl font-semibold text-gray-200">Course Details</h2>
+      <a href="/admin/courses/<%= course._id %>/edit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 text-sm">Edit Course</a>
+    </div>
+
+    <div class="space-y-4 text-gray-300">
+      <div>
+        <h4 class="font-semibold text-gray-400">Title:</h4>
+        <p><%= course.title %></p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-400">Code:</h4>
+        <p><%= course.code %></p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-400">Unit:</h4>
+        <p><%= course.unit %></p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-400">Department:</h4>
+        <p><%= course.department?.name || 'N/A' %></p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-400">Semester:</h4>
+        <p><%= course.semester?.name || 'N/A' %></p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-400">Lecturer:</h4>
+        <p><%= course.lecturerId?.name || 'N/A' %> (<%= course.lecturerId?.email || '' %>)</p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-400">Created At:</h4>
+        <p><%= new Date(course.createdAt).toLocaleString() %></p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-400">Last Updated:</h4>
+        <p><%= new Date(course.updatedAt).toLocaleString() %></p>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <a href="/admin/courses" class="text-sm text-blue-500 hover:underline">← Back to Courses</a>
+    </div>
+  </div>
+</main>
+</div>
+</div>
+<%- include('./partials/footer') %>

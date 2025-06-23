@@ -1,0 +1,29 @@
+<%- include('./partials/header') %>
+<%- include('./partials/sidebar') %>
+
+<form action="/lecturer/grade" method="POST" class="space-y-4 bg-[#0e0e0e] p-6 rounded-lg w-screen max-w-md mx-auto mt-10">
+  <label class="block text-white">Student:
+    <select name="studentId" required class="w-full p-2 bg-black text-white">
+      <% students.forEach(s => { %>
+        <option value="<%= s._id %>"><%= s.name %></option>
+      <% }) %>
+    </select>
+  </label>
+  <label class="block text-white">Course:
+    <select name="courseId" required class="w-full p-2 bg-black text-white">
+      <% courses.forEach(c => { %>
+        <option value="<%= c._id %>"><%= c.title %> (<%= c.code %>)</option>
+      <% }) %>
+    </select>
+  </label>
+  <label class="block text-white">Score:
+    <input type="number" name="score" required class="w-full p-2 bg-black text-white" min="0" max="100" />
+  </label>
+  <label class="block text-white">Session:
+    <input type="text" name="session" required class="w-full p-2 bg-black text-white" placeholder="2024/2025" />
+  </label>
+  <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Submit Grade</button>
+</form>
+</div>
+</div>
+<%- include('./partials/footer') %>

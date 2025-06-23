@@ -1,5 +1,77 @@
-  <footer class="bg-white mt-8 p-4 text-center text-sm text-gray-500 absolute bottom-0 w-full">
-    &copy; <%= new Date().getFullYear() %> Your School. All rights reserved.
-  </footer>
+
+<footer class="bg-black text-[#969696] py-8 mt-20 ">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Logo + Short Description -->
+      <div>
+        <h2 class="text-white text-xl font-bold mb-2">SPortal</h2>
+        <p class="text-sm leading-relaxed">
+          Your gateway to seamless e-learning. Access courses, results, and resources — all in one place.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-2">Quick Links</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="/" class="hover:text-[#E5C680]">Home</a></li>
+          <li><a href="/about" class="hover:text-[#E5C680]">About</a></li>
+          <li><a href="/login" class="hover:text-[#E5C680]">Login</a></li>
+          <li><a href="/contact" class="hover:text-[#E5C680]">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact / Socials -->
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-2">Connect With Us</h3>
+        <p class="text-sm mb-2">Email: <a href="mailto:support@sportal.com" class="hover:text-[#E5C680]">support@sportal.com</a></p>
+        <div class="flex space-x-4 mt-2">
+          <a href="#" class="hover:text-[#E5C680]"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="hover:text-[#E5C680]"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="hover:text-[#E5C680]"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="hover:text-[#E5C680]"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="mt-10 border-t border-gray-800 pt-4 text-center text-xs">
+      &copy; <%= new Date().getFullYear() %> SPortal. All rights reserved.
+    </div>
+  </div>
+</footer>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const notifBtn = document.getElementById("notifBtn");
+  const notifDropdown = document.getElementById("notifDropdown");
+
+  menuToggle?.addEventListener("click", () => {
+    mobileMenu?.classList.toggle("hidden");
+  });
+
+  notifBtn?.addEventListener("click", () => {
+    notifDropdown?.classList.toggle("hidden");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!notifBtn.contains(e.target) && !notifDropdown.contains(e.target)) {
+      notifDropdown?.classList.add("hidden");
+    }
+  });
+</script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<!-- AOS Init Script -->
+<script>
+  AOS.init({
+    duration: 800,  // Animation duration in ms
+    easing: 'ease-in-out', // Optional
+    once: true,     // Whether animation should happen only once
+  });
+</script>
 </body>
-</html>
+<!-- </html> -->

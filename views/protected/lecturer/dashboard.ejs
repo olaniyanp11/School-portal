@@ -1,0 +1,86 @@
+<%- include('./partials/header') %>
+<%- include('./partials/sidebar') %>
+
+<main class="flex-1 p-6">
+  <h1 class="text-3xl font-bold mb-6 text-gray-100">Welcome, <%= user?.name || 'Lecturer' %></h1>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- Courses Assigned -->
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4" data-aos="fade-up">
+      <div class="bg-blue-100 text-blue-600 rounded-full p-3">
+        <span class="material-icons">menu_book</span>
+      </div>
+      <div>
+        <div class="text-lg font-semibold"><%= courses?.length || 0 %></div>
+        <div class="text-gray-400 text-sm">Courses Assigned</div>
+      </div>
+    </div>
+
+    <!-- Pending Assignments to Grade -->
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4" data-aos="fade-up" data-aos-delay="100">
+      <div class="bg-green-100 text-green-600 rounded-full p-3">
+        <span class="material-icons">grading</span>
+      </div>
+      <div>
+        <div class="text-lg font-semibold"><%= pendingGrades?.length || 0 %></div>
+        <div class="text-gray-400 text-sm">Assignments to Grade</div>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4" data-aos="fade-up" data-aos-delay="200">
+      <div class="bg-yellow-100 text-yellow-600 rounded-full p-3">
+        <span class="material-icons">notifications</span>
+      </div>
+      <div>
+        <div class="text-lg font-semibold"><%= alerts?.length || 0 %></div>
+        <div class="text-gray-400 text-sm">New Notifications</div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+    <!-- Recent Submissions (for lecturer to review) -->
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
+      <h2 class="text-xl font-semibold mb-4 text-white flex items-center gap-2">
+        <span>Recent Submissions</span>
+        <span class="material-icons text-blue-400">assignment_turned_in</span>
+      </h2>
+      <ul class="space-y-3">
+        <% submissionsToReview?.forEach(sub => { %>
+          <li class="bg-[#141414] p-3 rounded flex items-center">
+            <span class="material-icons text-blue-500 mr-2">upload</span>
+            <%= sub.studentName %> submitted <%= sub.assignmentTitle %>
+            <span class="ml-auto text-xs text-gray-400"><%= sub.timeAgo %></span>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <!-- Lecturer Notifications -->
+    <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
+      <h2 class="text-xl font-semibold mb-4 text-white">Notifications</h2>
+      <ul class="space-y-2">
+        <% alerts?.forEach(alert => { %>
+          <li class="bg-[#141414] p-3 rounded flex items-center">
+            <span class="material-icons text-yellow-500 mr-2">announcement</span>
+            <%= alert.message %>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</main>
+
+</div>
+  </div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<%- include('./partials/footer') %>

@@ -1,7 +1,59 @@
 <%- include('./partials/header') %>
+<!-- HERO SECTION -->
+<div class="hero sm:pl-12 pl-4" ">
+  <h1 class="font-bold sm:text-[65px] text-[40px] leading-wider sm:w-[70%] w-full" data-aos="fade-up">
+    Welcome to the Student Central Portal
+  </h1>
+  <p class="text-sm mt-4 text-gray-600 sm:w-[50%] w-[70%] tracking-wide" data-aos="fade-up" data-aos-delay="100">
+    Your one-stop digital platform to manage your academics, stay informed, and connect with your school community.
+  </p>
+  <div class="flex flex-col md:flex-row items-start md:items-center space-x-4" data-aos="fade-up" data-aos-delay="200">
+    <a href="/login" class="bg-[#E5C69C] text-black px-6 py-3 rounded-lg mt-4 inline-block hover:bg-[#D4B47A] transition-colors">
+      Get Started
+    </a>
+    <a href="/register" class="bg-[#1A1A1A] text-white px-6 py-3 rounded-lg mt-4 inline-block hover:bg-[#333333] transition-colors">
+      Register Now
+    </a>
+  </div>
+</div>
 
-<h1>
-    Login Authentication 
-</h1>
+<!-- ABOUT SECTION -->
+<section class="about grid grid-cols-1 md:grid-cols-2 gap-8 sm:p-12 px-2" data-aos="fade-up">
+  <div class="sm:px-7 px-2" data-aos="fade-right">
+    <h2 class="text-2xl font-bold mb-4 text-white border-l-[#E5C69C] border-l-[4px] pl-4">
+      About Us
+    </h2>
+   <p class="text-gray-200 text-md leading-6  tracking-wider">
+      The Student Central Portal is designed to streamline your academic experience. Access course materials, track your progress, and stay connected with your peers and instructors.
+      Our platform is user-friendly and accessible, ensuring that you have all the resources you need at your fingertips.
+      Whether you're looking for course information, grades, or school announcements, everything you need is just a click away.
+    </p>
+    <p class="text-gray-200 text-md leading-6  tracking-wider">
+      Our mission is to empower students by providing a comprehensive digital platform that enhances their academic journey.
+    </p>
+  </div>
+  <div class="relative overflow-hidden min-h-[200px]" data-aos="zoom-in">
+    <img src="/images/std.jpeg" class="w-full object-contain" alt="">
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-8 p-12">
+  <div class="bg-[#1A1A1A] p-6 rounded-lg hover:shadow-xl transition-shadow duration-300 text-center" data-aos="fade-up">
+    <i class="fa fa-book text-[#E5C69C] text-center"></i>
+    <h3 class="text-xl font-semibold text-white mb-2">Course Management</h3>
+    <p class="text-gray-300">Easily access and manage your courses, assignments, and grades.</p>
+  </div>
+  <div class="bg-[#1A1A1A] p-6 rounded-lg hover:shadow-xl transition-shadow duration-300 text-center" data-aos="fade-up" data-aos-delay="150">
+    <i class="fa fa-book text-[#E5C69C] text-center"></i>
+    <h3 class="text-xl font-semibold text-white mb-2">Course Management</h3>
+    <p class="text-gray-300">Easily access and manage your courses, assignments, and grades.</p>
+  </div>
+  <div class="bg-[#1A1A1A] p-6 rounded-lg hover:shadow-xl transition-shadow duration-300 text-center" data-aos="fade-up" data-aos-delay="300">
+    <i class="fa fa-book text-[#E5C69C] text-center"></i>
+    <h3 class="text-xl font-semibold text-white mb-2">Course Management</h3>
+    <p class="text-gray-300">Easily access and manage your courses, assignments, and grades.</p>
+  </div>
+</section>
 
 <%- include('./partials/footer') %>
