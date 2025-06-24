@@ -9,8 +9,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 const jwt = require('jsonwebtoken');
 const makeMessage = require('./middlewares/addMessage');
+const Grade = require('./models/Grade');
 
 const app = express();
+
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));

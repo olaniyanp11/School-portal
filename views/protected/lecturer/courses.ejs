@@ -1,0 +1,38 @@
+<%- include('./partials/header') %>
+<%- include('./partials/sidebar') %>
+
+<main class="min-h-screen w-full px-6 sm:px-10 pt-6 max-w-screen mx-auto">
+  <div class="bg-[#0c0c0c] rounded-lg shadow p-6 w-full">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-semibold text-gray-200">All Courses</h2>
+    </div>
+
+    <ul class="space-y-4">
+      <% if (courses.length === 0) { %>
+        <p class="text-gray-400">No courses found.</p>
+      <% } else { %>
+        <% courses.forEach((course, index) => { %>
+          <li class="bg-[#141414] p-4 rounded flex flex-col sm:flex-row justify-between items-start sm:items-center">
+            <div class="flex items-start sm:items-center gap-3 flex-col sm:flex-row">
+              <div class="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center">
+                <span class="text-sm font-bold text-black"><%= index + 1 %></span>
+              </div>
+              <div>
+                <p class="text-gray-200 font-medium"><%= course.title %> (<%= course.code %>)</p>
+                <p class="text-gray-400 text-sm">Unit: <%= course.unit %></p>
+                <p class="text-gray-400 text-sm">
+                  Dept: <%= course.department?.name || 'N/A' %> |
+                  Semester: <%= course.semester?.name || 'N/A' %> |
+                  Lecturer: <%= course.lecturerId?.name || 'N/A' %>
+                </p>
+              </div>
+            </div>
+       
+          </li>
+        <% }) %>
+      <% } %>
+    </ul>
+  </div>
+</main>
+</div></div>
+<%- include('./partials/footer') %>

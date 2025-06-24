@@ -1,0 +1,41 @@
+<%- include('../../partials/header') %>
+<div class="flex flex-col bg-black min-h-screen" style="padding-top:10vh;">
+    <div class="flex flex-1 w-full">
+<%- include('./partials/sidebar') %>
+
+        <main class="flex-1 p-6">
+              <h1 class="text-2xl text-white font-bold mb-4">My Results</h1>
+            <div class="w-full flex justify-between px-5">
+              
+  <% if (grades.length === 0) { %>
+    <p class="text-white">You have not taken any courses yet.</p>
+  <% } else { %>
+    <table class="w-full table-auto bg-[#1a1a1a] text-white border border-gray-700 rounded">
+      <thead class="bg-[#111] text-left">
+        <tr>
+          <th class="p-2 border-b">Session</th>
+          <th class="p-2 border-b">Course Title</th>
+          <th class="p-2 border-b">Code</th>
+          <th class="p-2 border-b">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% grades.forEach(g => { %>
+          <tr class="border-t border-gray-700">
+            <td class="p-2"><%= g.session %></td>
+            <td class="p-2"><%= g.course?.title %></td>
+            <td class="p-2"><%= g.course?.code %></td>
+            <td class="p-2">
+              <span class="px-2 py-1 rounded-full text-sm
+                <%= g.score ? 'bg-green-700' : 'bg-yellow-700' %>">
+                <%= g.score ? 'Graded' : 'Pending' %>
+              </span>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</main>
+</div>
+<%- include('../../partials/footer') %>

@@ -1,129 +1,82 @@
-<%- include('../../partials/header')%>
+<%- include('../../partials/header') %>
 <div class="min-h-screen flex flex-col bg-black" style="padding-top:10vh;">
-    <div class="flex flex-1">
-        <!-- Sidebar -->
-         <%- include('../../partials/sidebar')%>
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <%- include('./partials/sidebar') %>
 
-        <!-- Main Content -->
-        <main class="flex-1 p-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <!-- Card 1 -->
-                <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="bg-blue-100 text-blue-600 rounded-full flex items-center justify-center p-3">
-                        <span class="material-icons">assignment</span>
-                    </div>
-                    <div>
-                        <div class="text-lg font-semibold">5</div>
-                        <div class="text-gray-500 text-sm">Active Courses</div>
-                    </div>
-                </div>
-                <!-- Card 2 -->
-                <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="bg-green-100 text-green-600 rounded-full flex items-center justify-center p-3">
-                        <span class="material-icons">check_circle</span>
-                    </div>
-                    <div>
-                        <div class="text-lg font-semibold">3.8</div>
-                        <div class="text-gray-500 text-sm">GPA</div>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center p-3">
-                        <span class="material-icons">notifications</span>
-                    </div>
-                    <div>
-                        <div class="text-lg font-semibold">2</div>
-                        <div class="text-gray-500 text-sm">New Notifications</div>
-                    </div>
-                </div>
-            </div>
-            <canvas id="myChart" class="w-full max-w-3xl mx-auto mt-10"></canvas>
-            <h1 class="text-3xl font-bold mb-4 text-gray-100">Welcome to Your Dashboard</h1>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Recent Activity -->
-                <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
-                    <h2 class="text-xl font-semibold mb-4 text-gray flex space-x-4 items-center"><span>Recent Activity</span>
-                        <span class="material-icons text-blue-700 animate-spin"> history</span>
-                    </h2>
-                    <ul class="space-y-3">
-                        <li class="bg-[#141414] p-3 rounded flex items-center" data-aos="fade-up" data-aos-delay="100">
-                            <span class="material-icons text-blue-500 mr-2">assignment_turned_in</span>
-                            Submitted assignment for Math 101
-                            <span class="ml-auto text-xs text-gray-400">2h ago</span>
-                        </li>
-                        <li class="bg-[#141414] p-3 rounded flex items-center" data-aos="fade-up" data-aos-delay="200">
-                            <span class="material-icons text-[#141414]0 mr-2">grade</span>
-                            Scored 95% in Physics Quiz
-                            <span class="ml-auto text-xs text-gray-400">1d ago</span>
-                        </li>
-                        <li class="bg-[#141414] p-3 rounded flex items-center" data-aos="fade-up" data-aos-delay="300">
-                            <span class="material-icons text-yellow-500 mr-2">message</span>
-                            New message from your lecturer
-                            <span class="ml-auto text-xs text-gray-400">3d ago</span>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Notifications -->
-                <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
-                    <h2 class="text-xl font-semibold mb-4 text-gray">Notifications</h2>
-                    <ul class="space-y-2">
-                        <li class="bg-[#141414] p-3 rounded flex items-center">
-                            <span class="material-icons text-blue-400 mr-2">announcement</span>
-                            New assignment posted in Math 101
-                        </li>
-                        <li class="bg-[#141414] p-3 rounded flex items-center">
-                            <span class="material-icons text-green-400 mr-2">person</span>
-                            Your profile has been updated
-                        </li>
-                        <li class="bg-[#141414] p-3 rounded flex items-center">
-                            <span class="material-icons text-yellow-400 mr-2">mail</span>
-                            New message from your lecturer
-                        </li>
-                    </ul>
-                </div>
-            </div>
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Total Courses -->
+        <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
+          <div class="bg-blue-100 text-blue-600 rounded-full p-3">
+            <span class="material-icons">assignment</span>
+          </div>
+          <div>
+            <div class="text-lg font-semibold"><%= activeCourses %></div>
+            <div class="text-gray-500 text-sm">Courses Taken</div>
+          </div>
+        </div>
 
-        </main>
-    </div>
+        <!-- GPA -->
+        <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
+          <div class="bg-green-100 text-green-600 rounded-full p-3">
+            <span class="material-icons">check_circle</span>
+          </div>
+          <div>
+            <div class="text-lg font-semibold"><%= gpa %></div>
+            <div class="text-gray-500 text-sm">GPA</div>
+          </div>
+        </div>
+
+        <!-- Dummy Notification Count -->
+        <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
+          <div class="bg-yellow-100 text-yellow-600 rounded-full p-3">
+            <span class="material-icons">notifications</span>
+          </div>
+          <div>
+            <div class="text-lg font-semibold">2</div>
+            <div class="text-gray-500 text-sm">Notifications</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activities -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
+          <h2 class="text-xl font-semibold mb-4 text-white flex items-center gap-2">
+            <span>Recent Activity</span>
+            <span class="material-icons text-blue-700 animate-spin">history</span>
+          </h2>
+          <ul class="space-y-3">
+            <% grades.slice(0, 3).forEach(g => { %>
+              <li class="bg-[#141414] p-3 rounded flex items-center">
+                <span class="material-icons text-green-500 mr-2">grade</span>
+                Scored <%= g.score %> in <%= g.course?.title %>
+                <span class="ml-auto text-xs text-gray-400"><%= g.updatedAt.toDateString() %></span>
+              </li>
+            <% }) %>
+          </ul>
+        </div>
+
+        <!-- Notifications (static/dummy for now) -->
+        <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
+          <h2 class="text-xl font-semibold mb-4 text-white">Notifications</h2>
+          <ul class="space-y-2">
+            <li class="bg-[#141414] p-3 rounded flex items-center">
+              <span class="material-icons text-blue-400 mr-2">announcement</span>
+              New course registration starts Monday
+            </li>
+            <li class="bg-[#141414] p-3 rounded flex items-center">
+              <span class="material-icons text-yellow-400 mr-2">mail</span>
+              Lecturer updated your grade
+            </li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </div>
 </div>
-<!-- Material Icons CDN -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<script>
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        if (sidebar.classList.contains('hidden') || sidebar.classList.contains('-translate-x-full')) {
-            sidebar.classList.remove('hidden', '-translate-x-full');
-            sidebar.classList.add('block', 'translate-x-0');
-        } else {
-            sidebar.classList.add('-translate-x-full');
-            sidebar.classList.remove('block', 'translate-x-0');
-        }
-    }
-</script>
-<script>
-  const ctx = document.getElementById('myChart').getContext('2d');
-  const myChart = new Chart(ctx, {
-    type: 'bar', // Can be 'line', 'pie', 'doughnut', etc.
-    data: {
-      labels: ['Math', 'English', 'Biology', 'Physics', 'Chemistry'],
-      datasets: [{
-        label: 'Student Scores',
-        data: [85, 92, 78, 88, 95],
-        backgroundColor: 'rgba(229, 198, 128, 0.6)',
-        borderColor: 'rgba(229, 198, 128, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-</script>
 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <%- include('../../partials/footer') %>

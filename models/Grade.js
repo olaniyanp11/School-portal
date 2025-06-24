@@ -5,9 +5,13 @@ const gradeSchema = new mongoose.Schema({
   course: { type: mongoose.Schema.Types.ObjectId, ref: "Course", required: true },
   score: { type: Number, required: true },
   grade: { type: String },
-  session: { type: String }
-});
+  session: { type: String, required: true }
+}, {timestamps: true});
 
+// Set compound unique index: one grade per student + course + session
+gradeSchema.index({ student: 1, course: 1, session: 1 }, { unique: true });
+
+// Pre-save middleware to calculate letter grade
 gradeSchema.pre("save", function (next) {
   const score = this.score;
   if (score >= 70) this.grade = "A";
@@ -19,6 +23,5 @@ gradeSchema.pre("save", function (next) {
   next();
 });
 
- const Grade = mongoose.model("Grade", gradeSchema);
-
+const Grade = mongoose.model("Grade", gradeSchema);
 module.exports = Grade;

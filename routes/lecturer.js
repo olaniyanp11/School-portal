@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Grade = require('../models/Grade');
 const checkLec = require('../middlewares/isLecturer');
+const Department = require('../models/Department');
 
 
 
@@ -70,16 +71,31 @@ router.get("/grades", authenticateToken, async (req, res) => {
 
 router.post("/grade", authenticateToken, async (req, res) => {
   const { studentId, courseId, score, session } = req.body;
+
   try {
+    // Check if the grade already exists
+    const existingGrade = await Grade.findOne({
+      student: studentId,
+      course: courseId,
+      session: session
+    });
+
+    if (existingGrade) {
+      return res.redirect("/lecturer/grades?message=Grade+already+exists+for+this+student+and+course&type=error");
+    }
+
+    // Save new grade if not a duplicate
     const grade = new Grade({ student: studentId, course: courseId, score, session });
     await grade.save();
+
     res.redirect("/lecturer/grades?message=Grade+Saved&type=success");
   } catch (err) {
     console.error(err);
     res.redirect("/lecturer/grades?message=Error+Saving+Grade&type=error");
   }
 });
-router.get("/grades/all", authenticateToken,checkLec, async (req, res) => {
+
+router.get("/grades/all", authenticateToken, async (req, res) => {
   try {
     let filter = {};
 
@@ -105,6 +121,120 @@ router.get("/grades/all", authenticateToken,checkLec, async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+router.get("/courses", authenticateToken, async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    const user = await User.findById(userId).select('-password');
+    if (!user || user.role !== 'lecturer') {
+      return res.status(403).render('error', { message: "Access Denied", user });
+    }
+    const courses = await Course.find({ lecturerId: userId })
+      .populate('department', 'name')
+      .populate('semester', 'name').populate('lecturerId', 'name email');
+console.log(courses);
+    if (!courses || courses.length === 0) {
+      return res.render('protected/lecturer/courses', { title: "Courses", user, courses: [] });
+    }
+
+    // Render the courses page with the fetched courses
+  res.render('protected/lecturer/courses',{title : "Courses", user : user, courses});
+
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+    res.status(500).render('error', { message: "Server Error", error, user: req.user });
+  }
+})
+router.get('/all', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const user = await User.findById(userId).select('-password');
+    if (!user) return res.redirect("/logout");
+
+    const departments = await Department.find();
+    res.render('protected/lecturer/students', {
+      title: "All Students",
+      user,
+      departments,
+      students: [],
+      selectedDepartment: '',
+      currentPage: 1,
+      totalPages: 0
+    });
+  } catch (error) {
+    console.error('❌ Error loading all-students page:', error);
+    res.status(500).render('error', {
+      title: "Error",
+      message: "Server Error",
+      error,
+      user: req.user || null
+    });
+  }
+});
+router.get('/api/students', authenticateToken, async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const userId = req.user.userId;
+    const user = await User.findById(userId).select('-password');
+    if (!user) return res.redirect("/logout");
+    const limit = 10;
+    const departmentName = req.query.department || '';
+    
+    const filter = { role: 'student' };
+    let selectedDepartment = '';
+
+    if (departmentName) {
+      const dept = await Department.findOne({ name: departmentName });
+      if (dept) {
+        filter.department = dept._id;
+        selectedDepartment = departmentName;
+      } else {
+        filter.department = null; // To prevent casting error
+      }
+    }
+
+    const totalStudents = await User.countDocuments(filter);
+    const totalPages = Math.ceil(totalStudents / limit);
+
+    const students = await User.find(filter)
+      .select('-password')
+      .populate('department', 'name')
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    if (req.xhr) {
+      return res.render('protected/lecturer/students', {
+        title: "All Students",
+        students,
+        user,
+        departments: await Department.find(),
+        selectedDepartment,
+        currentPage: page,
+        totalPages,
+        layout: false
+      });
+    }
+
+   res.render('protected/lecturer/students', {
+        title: "All Students",
+        students,
+        selectedDepartment,
+        currentPage: page,
+         departments: await Department.find(),
+        user,
+        totalPages,
+        layout: false
+      });
+
+  } catch (error) {
+    console.error('❌ Error fetching students:', error);
+    res.render('error', {
+      title: "Error",
+      message: "Server Error",
+      error,
+      user: req.user || null
+    });
+}});
 
 // View one Lecturer
 router.get('/:id', authenticateToken, checkAdmin, async (req, res) => {

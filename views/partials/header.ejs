@@ -49,7 +49,7 @@
         <% } else if (user.role === 'lecturer') { %>
         <a href="/lecturer" class="hover:text-[#E5C680]">Lecturer Dashboard</a>
         <a href="/lecturer/courses" class="hover:text-[#E5C680]">Courses</a>
-        <a href="/lecturer/students" class="hover:text-[#E5C680]">Students</a>
+        <a href="/lecturer/all" class="hover:text-[#E5C680]">Students</a>
         <a href="/lecturer/profile" class="hover:text-[#E5C680]">Profile</a>
         
         <a href="/logout" class="text-red-500 hover:text-red-600">Logout</a>
@@ -108,7 +108,7 @@
     <% } else if (user && user.role === 'lecturer') { %>
     <a href="/lecturer" class="hover:text-[#E5C680]">Lecturer Dashboard</a>
     <a href="/lecturer/courses" class="hover:text-[#E5C680]">Courses</a>
-    <a href="/lecturer/students" class="hover:text-[#E5C680]">Students</a>
+    <a href="/lecturer/all" class="hover:text-[#E5C680]">Students</a>
     <a href="/lecturer/profile" class="hover:text-[#E5C680]">Profile</a>
     <a href="/logout" class="text-red-500 hover:text-red-600">Logout</a>
     <% } else { %>

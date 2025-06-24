@@ -2,7 +2,9 @@
 <%- include('./partials/sidebar') %>
 
 <main class="flex-1 p-6">
-  <h1 class="text-3xl font-bold mb-6 text-gray-100">Welcome, <%= user?.name || 'Lecturer' %></h1>
+  <h1 class="text-3xl font-bold mb-6 text-gray-100">
+    Welcome, <%= user?.name || 'Lecturer' %>
+  </h1>
 
   <!-- Summary Cards -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -17,7 +19,7 @@
       </div>
     </div>
 
-    <!-- Pending Assignments to Grade -->
+    <!-- Assignments to Grade -->
     <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4" data-aos="fade-up" data-aos-delay="100">
       <div class="bg-green-100 text-green-600 rounded-full p-3">
         <span class="material-icons">grading</span>
@@ -40,47 +42,52 @@
     </div>
   </div>
 
-
+  <!-- Bottom Grid: Submissions & Notifications -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-    <!-- Recent Submissions (for lecturer to review) -->
+    <!-- Recent Submissions to Review -->
     <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
       <h2 class="text-xl font-semibold mb-4 text-white flex items-center gap-2">
         <span>Recent Submissions</span>
         <span class="material-icons text-blue-400">assignment_turned_in</span>
       </h2>
-      <ul class="space-y-3">
-        <% submissionsToReview?.forEach(sub => { %>
-          <li class="bg-[#141414] p-3 rounded flex items-center">
-            <span class="material-icons text-blue-500 mr-2">upload</span>
-            <%= sub.studentName %> submitted <%= sub.assignmentTitle %>
-            <span class="ml-auto text-xs text-gray-400"><%= sub.timeAgo %></span>
-          </li>
-        <% }) %>
-      </ul>
+      <% if (submissionsToReview?.length > 0) { %>
+        <ul class="space-y-3">
+          <% submissionsToReview.forEach(sub => { %>
+            <li class="bg-[#141414] p-3 rounded flex items-center">
+              <span class="material-icons text-blue-500 mr-2">upload</span>
+              <%= sub.studentName %> submitted <%= sub.assignmentTitle %>
+              <span class="ml-auto text-xs text-gray-400"><%= sub.timeAgo %></span>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="text-gray-400">No recent submissions to review.</p>
+      <% } %>
     </div>
 
     <!-- Lecturer Notifications -->
     <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
       <h2 class="text-xl font-semibold mb-4 text-white">Notifications</h2>
-      <ul class="space-y-2">
-        <% alerts?.forEach(alert => { %>
-          <li class="bg-[#141414] p-3 rounded flex items-center">
-            <span class="material-icons text-yellow-500 mr-2">announcement</span>
-            <%= alert.message %>
-          </li>
-        <% }) %>
-      </ul>
+      <% if (alerts?.length > 0) { %>
+        <ul class="space-y-2">
+          <% alerts.forEach(alert => { %>
+            <li class="bg-[#141414] p-3 rounded flex items-center">
+              <span class="material-icons text-yellow-500 mr-2">announcement</span>
+              <%= alert.message %>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="text-gray-400">No new notifications.</p>
+      <% } %>
     </div>
   </div>
 </main>
-
-</div>
+  </div>
   </div>
 
-<!-- Chart.js CDN -->
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-<!-- Material Icons -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <%- include('./partials/footer') %>

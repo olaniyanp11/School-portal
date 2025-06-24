@@ -129,7 +129,7 @@ router.post(
         return res.status(404).json({ message: "User not found" });
       }
 
-      res.redirect("/admin/profile"); // or redirect to role-based profile page if preferred
+      res.redirect("/admin/profile?message=data updated successfully&type=success");
     } catch (error) {
       console.error("Error updating user profile:", error);
       res.status(500).json({ message: "Internal server error" });

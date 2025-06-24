@@ -1,0 +1,44 @@
+<%- include('../../partials/header') %>
+<div class="flex flex-col bg-black min-h-screen" style="padding-top:10vh;">
+    <div class="flex flex-1 w-full">
+        <%- include('./partials/sidebar') %>
+
+        <main class="flex-1 p-6">
+            <div class="w-full flex justify-between px-5">
+                <h1 class="text-2xl text-white font-bold mb-4">My Results</h1>
+                <a href="/student/export-results" target="_blank"
+                    class="inline-block mb-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+                    Export to PDF
+                </a>
+            </div>
+
+            <% if (grades.length === 0) { %>
+                <p class="text-white">You have no results yet.</p>
+            <% } else { %>
+                <table class="w-full table-auto bg-[#1a1a1a] text-white border border-gray-700 rounded">
+                    <thead class="bg-[#111] text-left">
+                        <tr>
+                            <th class="p-2 border-b">Session</th>
+                            <th class="p-2 border-b">Course</th>
+                            <th class="p-2 border-b">Code</th>
+                            <th class="p-2 border-b">Score</th>
+                            <th class="p-2 border-b">Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% grades.forEach(g => { %>
+                            <tr class="border-t border-gray-700">
+                                <td class="p-2"><%= g.session %></td>
+                                <td class="p-2"><%= g.course?.title %></td>
+                                <td class="p-2"><%= g.course?.code %></td>
+                                <td class="p-2"><%= g.score %></td>
+                                <td class="p-2"><%= g.grade %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </main>
+    </div>
+</div>
+<%- include('../../partials/footer') %>
