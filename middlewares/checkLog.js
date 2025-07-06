@@ -6,7 +6,7 @@ function authenticateToken(req, res, next) {
   if (!token) {
     return res.redirect('/logout'); // Or show an unauthorized page
   }
-
+  
   try {
     console.log('Verifying token...'); // Log before verification
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');

@@ -48,13 +48,36 @@ app.use((req, res, next)=>{
   res.locals.user = user;
     res.render('404', { title: '404 Not Found' , user: user });
 })
+const User = require('./models/User'); // Adjust the path as needed
 
-app.listen(3000,
-    () => {
-        console.log('🚀 Server running on http://localhost:3000')
-       mongoose.connect(process.env.dbURL).then(()=>{
-            console.log('✅ Connected to MongoDB');
-        }).catch((err)=>{
-            console.error('❌ Error connecting to MongoDB:', err.message);
-        });
+async function createSuperAdmin() {
+  const existingAdmin = await User.findOne({ role: 'admin' });
+
+  if (!existingAdmin) {
+    const hashedPassword = await bcrypt.hash('admin123', 10); // default password
+
+    const admin = new User({
+      name: 'Super Admin',
+      email: 'admin@gmail.com',
+      password: hashedPassword,
+      role: 'admin123'
     });
+
+    await admin.save();
+    console.log('👑 Super Admin created: email=admin@eduwave.com, password=admin123');
+  } else {
+    console.log('✅ Super Admin already exists');
+  }
+}
+app.listen(3000, () => {
+  console.log('🚀 Server running on http://localhost:3000');
+
+  mongoose.connect(process.env.dbURL)
+    .then(async () => {
+      console.log('✅ Connected to MongoDB');
+      await createSuperAdmin(); // <- Create super admin after DB connection
+    })
+    .catch((err) => {
+      console.error('❌ Error connecting to MongoDB:', err.message);
+    });
+});

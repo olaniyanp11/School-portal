@@ -1,4 +1,8 @@
 <%- include('../../partials/header') %>
+
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <div class="min-h-screen flex flex-col bg-black" style="padding-top:10vh;">
   <div class="flex flex-1">
     <!-- Sidebar -->
@@ -6,11 +10,12 @@
 
     <!-- Main Content -->
     <main class="flex-1 p-6">
+      <!-- Summary Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <!-- Total Courses -->
         <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
           <div class="bg-blue-100 text-blue-600 rounded-full p-3">
-            <span class="material-icons">assignment</span>
+            <i class="fas fa-book"></i>
           </div>
           <div>
             <div class="text-lg font-semibold"><%= activeCourses %></div>
@@ -21,7 +26,7 @@
         <!-- GPA -->
         <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
           <div class="bg-green-100 text-green-600 rounded-full p-3">
-            <span class="material-icons">check_circle</span>
+            <i class="fas fa-check-circle"></i>
           </div>
           <div>
             <div class="text-lg font-semibold"><%= gpa %></div>
@@ -29,10 +34,10 @@
           </div>
         </div>
 
-        <!-- Dummy Notification Count -->
+        <!-- Notifications Count -->
         <div class="bg-[#0c0c0c] rounded-lg shadow p-6 flex items-center space-x-4">
           <div class="bg-yellow-100 text-yellow-600 rounded-full p-3">
-            <span class="material-icons">notifications</span>
+            <i class="fas fa-bell"></i>
           </div>
           <div>
             <div class="text-lg font-semibold">2</div>
@@ -41,17 +46,18 @@
         </div>
       </div>
 
-      <!-- Recent Activities -->
+      <!-- Recent Activities & Notifications -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Recent Activities -->
         <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
           <h2 class="text-xl font-semibold mb-4 text-white flex items-center gap-2">
             <span>Recent Activity</span>
-            <span class="material-icons text-blue-700 animate-spin">history</span>
+            <i class="fas fa-history text-blue-700 animate-spin"></i>
           </h2>
           <ul class="space-y-3">
             <% grades.slice(0, 3).forEach(g => { %>
-              <li class="bg-[#141414] p-3 rounded flex items-center">
-                <span class="material-icons text-green-500 mr-2">grade</span>
+              <li class="bg-[#141414] p-3 rounded flex items-center text-white">
+                <i class="fas fa-star text-green-500 mr-2"></i>
                 Scored <%= g.score %> in <%= g.course?.title %>
                 <span class="ml-auto text-xs text-gray-400"><%= g.updatedAt.toDateString() %></span>
               </li>
@@ -59,16 +65,16 @@
           </ul>
         </div>
 
-        <!-- Notifications (static/dummy for now) -->
+        <!-- Notifications -->
         <div class="bg-[#0c0c0c] rounded-lg shadow p-6">
           <h2 class="text-xl font-semibold mb-4 text-white">Notifications</h2>
-          <ul class="space-y-2">
+          <ul class="space-y-2 text-white">
             <li class="bg-[#141414] p-3 rounded flex items-center">
-              <span class="material-icons text-blue-400 mr-2">announcement</span>
+              <i class="fas fa-bullhorn text-blue-400 mr-2"></i>
               New course registration starts Monday
             </li>
             <li class="bg-[#141414] p-3 rounded flex items-center">
-              <span class="material-icons text-yellow-400 mr-2">mail</span>
+              <i class="fas fa-envelope text-yellow-400 mr-2"></i>
               Lecturer updated your grade
             </li>
           </ul>
@@ -78,5 +84,4 @@
   </div>
 </div>
 
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <%- include('../../partials/footer') %>

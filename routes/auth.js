@@ -159,137 +159,91 @@ router.post('/profile/change-password', authenticateToken, async (req, res) => {
   }
 });
 
+router.post('/register', async (req, res) => {
+  let { name, email, password, inviteCode,
+        matricNumber, department, level } = req.body;
 
-router.post("/register", async (req, res) => {
-  let { name, email, password, inviteCode, matricNumber, department, level } = req.body;
-  inviteCode = inviteCode ? inviteCode.trim() : null;
-
+  inviteCode    = inviteCode ? inviteCode.trim() : null;
+  matricNumber  = matricNumber ? matricNumber.trim().toUpperCase() : null; // 👈
   const Departments = await Department.find();
 
   try {
-    // Check if email already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.render("register", {
-        title: "Register",
-        error: "Email already exists.",
-        user: null,
-        Departments,
-      });
+
+    // ----------------------- 1.  EMAIL check -----------------------
+    const emailExists = await User.findOne({ email });
+    if (emailExists) {
+      return res.render('register', { title:'Register', error:'Email already exists.', user:null, Departments });
     }
 
-    // Password length check
+    // ----------------------- 2.  PASSWORD check --------------------
     if (password.length < 6) {
-      return res.render("register", {
-        title: "Register",
-        error: "Password must be at least 6 characters long.",
-        user: null,
-        Departments,
-      });
+      return res.render('register', { title:'Register', error:'Password must be at least 6 characters long.', user:null, Departments });
     }
 
-    // Default role
-    let role = "student";
-
-    // Invite code validation
-    console.log("Invite code:", inviteCode);
+    // ----------------------- 3.  INVITE / ROLE ---------------------
+    let role = 'student';
     if (inviteCode) {
-      const validInvite = await Invite.findOne({
-        code: inviteCode,
-        isUsed: false,
-      });
+      const invite = await Invite.findOne({ code: inviteCode, isUsed:false });
+      if (!invite || invite.expiresAt < new Date()) {
+        return res.render('register', { title:'Register', error:'Invalid or expired invite code.', user:null, Departments });
+      }
+      role        = invite.role;
+      invite.isUsed = true;
+      await invite.save();
+    }
 
-      if (!validInvite || validInvite.isUsed || validInvite.expiresAt < new Date()) {
-        console.log("Invalid or expired invite code:", inviteCode);
-        return res.render("register", {
-          title: "Register",
-          user: null,
-          Departments,
-          error: "Invalid or expired invite code.",
-        });
+    // ----------------------- 4.  MATRIC checks ---------------------
+    if (role === 'student') {
+      if (!matricNumber) {
+        return res.render('register', { title:'Register', error:'Matric number is required for students.', user:null, Departments });
       }
 
-      role = validInvite.role;
-      validInvite.isUsed = true;
-      await validInvite.save();
+      const matricExists = await User.findOne({ matricNumber });
+      if (matricExists) {
+        return res.render('register', { title:'Register', error:'Matric number already exists.', user:null, Departments });
+      }
     }
 
-    // Matric number check for students
-    if (role === "student" && (!matricNumber || matricNumber.trim() === "")) {
-      return res.render("register", {
-        user: null,
-        Departments,
-        title: "Register",
-        error: "Matric number is required for students.",
-      });
-    }
-
-    // Department validation only for students
+    // ----------------------- 5.  DEPARTMENT ------------------------
     let dept = null;
-    if (role === "student") {
+    if (role === 'student') {
       dept = await Department.findOne({ name: department });
       if (!dept) {
-        return res.render("register", {
-          title: "Register",
-          Departments,
-          error: "Department does not exist.",
-          user: null,
-        });
+        return res.render('register', { title:'Register', error:'Department does not exist.', user:null, Departments });
       }
     }
 
-    // Create user
+    // ----------------------- 6.  CREATE USER -----------------------
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({
+    const user = new User({
       name,
       email,
       password: hashedPassword,
       role,
-      matricNumber: role === "student" ? matricNumber : undefined,
-      department: role === "student" && dept ? dept._id : undefined,
-      level: role === "student" ? level : undefined,
+      matricNumber: role === 'student' ? matricNumber : undefined,
+      department  : role === 'student' ? dept?._id : undefined,
+      level       : role === 'student' ? level     : undefined
     });
 
-    await newUser.save();
+    await user.save();          // ← may still throw 11000 if race condition
+    // …
 
-    // Automatically enroll student into department courses
-    if (role === "student") {
-      const currentSemester = await Semester.findOne({ isCurrent: true });
-
-      if (currentSemester) {
-        const deptCourses = await Course.find({ department: dept._id });
-
-        const enrollments = deptCourses.map((course) => ({
-          studentId: newUser._id,
-          courseId: course._id,
-          semesterId: currentSemester._id,
-          status: "active",
-        }));
-
-        if (enrollments.length > 0) {
-          await Enrollment.insertMany(enrollments);
-        }
-      }
+  } catch (err) {
+    // Handle duplicate‑key race (matric/email) nicely
+    if (err.code === 11000) {
+      const field = Object.keys(err.keyValue)[0];
+      return res.render('register', {
+        title:'Register',
+        error:`${field.charAt(0).toUpperCase()+field.slice(1)} already exists.`,
+        user:null,
+        Departments
+      });
     }
-
-    return res.render("login", {
-      title: "Login",
-      error: null,
-      message: "Registration successful! You can now log in.",
-      user: null,
-      Departments,
-    });
-
-  } catch (error) {
-    console.error("Registration error:", error);
-    return res.render("register", {
-      title: "Register",
-      error: "An error occurred while registering.",
-      Departments,
-      user: null,
-    });
+    console.error('Registration error:', err);
+    return res.render('register', { title:'Register', error:'An unexpected error occurred.', user:null, Departments });
   }
 });
+
 
 router.post("/login", async (req, res) => {
   try {
