@@ -1,5 +1,6 @@
 <%- include('./partials/header') %>
-<%- include('./partials/sidebar') %>
+<div class="bg-no-repeat bg-cover flex w-full justify-around" style="background-image: linear-gradient(rgba(0,0,0,0.678), rgb(0,0,0)), url('/images/hero.jpg');">
+  <%- include('./partials/sidebar') %>
 
 <form action="/lecturer/grade" method="POST" class="space-y-4 bg-[#0e0e0e] p-6 rounded-lg w-screen max-w-md mx-auto mt-10">
   <label class="block text-white">Student:
@@ -24,6 +25,7 @@
   </label>
   <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Submit Grade</button>
 </form>
+</div>
 </div>
 </div>
 <%- include('./partials/footer') %>

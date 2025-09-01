@@ -3,6 +3,7 @@ const path = require('path');
 const route = require('./routes/route');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt')
 const cookieparser = require('cookie-parser');
 const authenticateToken = require('./middlewares/checkLog'); // adjust if needed
 const dotenv = require('dotenv');
@@ -60,7 +61,7 @@ async function createSuperAdmin() {
       name: 'Super Admin',
       email: 'admin@gmail.com',
       password: hashedPassword,
-      role: 'admin123'
+      role: 'admin'
     });
 
     await admin.save();
